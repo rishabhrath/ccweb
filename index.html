@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Embedded Google Form with Hidden Field</title>
+    <style>
+        /* CSS to temporarily unhide the hidden field */
+        #hidden-value {
+            display: block !important;
+            visibility: visible !important;
+            position: relative !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: auto !important;
+            height: auto !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Embed your Google Form here -->
@@ -24,6 +36,7 @@
                 const hiddenField = document.createElement('input');
                 hiddenField.type = 'hidden';
                 hiddenField.name = 'uniqueID';
+                hiddenField.id = 'hidden-value'; // Add an ID for easier access
                 hiddenField.value = uniqueID || '';
                 form.appendChild(hiddenField);
             });
@@ -31,6 +44,7 @@
     </script>
 </body>
 </html>
+
 
 
 
