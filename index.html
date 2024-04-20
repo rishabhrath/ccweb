@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embedded Google Form</title>
+    <title>Embedded Google Form with Hidden Field</title>
 </head>
 <body>
     <!-- Embed your Google Form here -->
-    <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLScH4kEzfGjhy5QOIl0FL1jwFuxjlJ_fUy2LV_Hjgme3Ytwn8A/viewform?embedded=true" width="600" height="600" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+    <iframe id="google-form" src="https://docs.google.com/forms/d/e/1FAIpQLScH4kEzfGjhy5QOIl0FL1jwFuxjlJ_fUy2LV_Hjgme3Ytwn8A/viewform?embedded=true" width="640" height="931" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
 
-    <!-- JavaScript to inject CSS styles into the iframe -->
+    <!-- JavaScript to extract value from URL and populate into hidden field -->
     <script>
-        // Wait for the iframe to load
-        document.getElementById('google-form').onload = function() {
-            // Get the iframe's document object
-            var iframeDoc = document.getElementById('google-form').contentDocument;
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Extract the unique ID parameter from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const uniqueID = urlParams.get('entry.1801877272');
 
-            // Inject CSS styles into the iframe
-            var css = '/* Hide the "caseid" question */\n';
-            css += '.freebirdFormviewerViewItemsItemItem[data-item-id="833042741"] { display: none !important; }';
-
-            // Create a <style> element and append it to the iframe's <head>
-            var styleElement = iframeDoc.createElement('style');
-            styleElement.textContent = css;
-            iframeDoc.head.appendChild(styleElement);
-        };
+            // Access the form within the iframe and add the hidden field
+            const iframe = document.getElementById('google-form');
+            iframe.addEventListener('load', function() {
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                const form = iframeDoc.querySelector('form');
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = 'uniqueID';
+                hiddenField.value = uniqueID || '';
+                form.appendChild(hiddenField);
+            });
+        });
     </script>
 </body>
 </html>
+
 
 
